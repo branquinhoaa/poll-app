@@ -3,12 +3,12 @@ pages. Most commonly, sessions are used to provide user authentication informati
 you log in, and a session is created. After that, you don’t have to log in again every time
 you re-load the page.*/
 
-//conexao com handlers
-var main = require('./handlers/main.js'); //(home)
-var user = require('./handlers/user.js');//(register, registerproces)
-var login =require('./handlers/login.js'); //(login, logproc)
-var polls = require('./handlers/polls.js');//(polls)
-var filter= require('./filters/filter.js')
+// handlers connections
+var main = require('./handlers/main.js'); 
+var user = require('./handlers/user.js');
+var login =require('./handlers/login.js'); 
+var polls = require('./handlers/polls.js');
+var filter= require('./filters/filter.js');
 
 module.exports = function (app){
     app.use(filter.verifyCurrentUser);

@@ -2,16 +2,6 @@ var mongo = require('mongodb').MongoClient;
 var url = process.env.MONGOLAB_URI;
 var ObjectId = require('mongodb').ObjectID;
 
-function connect (callback){
-    mongo.connect(url, function(err, db){
-        if(err){callback(err)}
-        else {
-            callback(null,db);     
-        }
-        db.close();
-    })
-}
-
 module.exports = {
 
     getAllPolls:function(callback){
@@ -198,4 +188,16 @@ module.exports = {
             }
         });
     }
+}
+
+
+
+function connect (callback){
+    mongo.connect(url, function(err, db){
+        if(err){callback(err)}
+        else {
+            callback(null,db);     
+        }
+        db.close();
+    })
 }

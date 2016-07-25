@@ -1,15 +1,5 @@
-//retirar desnecessarios depois
 var flash = require('./flash.js').flash;
-
-var getUser = require("./dbConn.js").getUser;
-var register = require("./dbConn.js").registerUser;
-var byID = require("./dbConn.js").userByID;
-var registerPoll=require("./dbConn.js").registerPoll;
-var returnPoll= require("./dbConn.js").returnPoll;
-var getQuestion = require("./dbConn.js").getQuestion;
-var registerAnswer = require("./dbConn.js").registerAnswer;
-var getAllAnswers =  require("./dbConn.js").getAllAnswers;
-var countVotes = require("./dbConn.js").countVotes;
+var dbConn = require("../dbConn")
 
 module.exports ={ 
     login: function(req, res){
@@ -19,7 +9,7 @@ module.exports ={
     loginProc: function(req,res){
         var email = req.body.email, psw = req.body.psw;
         
-        getUser(email, function(err, userData){
+        dbConn.getUser(email, function(err, userData){
             if (err){
                 throw (err);
             }

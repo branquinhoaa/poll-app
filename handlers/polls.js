@@ -1,24 +1,12 @@
-
 var flash = require('./flash.js').flash;
-
-//retirar desnecessarios depois
-var getUser = require("./dbConn.js").getUser;
-var register = require("./dbConn.js").registerUser;
-var byID = require("./dbConn.js").userByID;
-var registerPoll=require("./dbConn.js").registerPoll;
-var returnPoll= require("./dbConn.js").returnPoll;
-var getQuestion = require("./dbConn.js").getQuestion;
-var registerAnswer = require("./dbConn.js").registerAnswer;
-var getAllAnswers =  require("./dbConn.js").getAllAnswers;
-var countVotes = require("./dbConn.js").countVotes;
-var getAllPolls=require("./dbConn.js").getAllPolls;
+var dbConn = require("../dbConn.js");
 
 
 module.exports = {
     
     deletePoll: function(req, res){
         questionId= req.query.id;
-        deletePoll(questionId);
+        dbConn.deletePoll(questionId);
         res.redirect(302,'/myPolls'); 
     },   
     
@@ -29,10 +17,10 @@ module.exports = {
         if (req.session.user){ var layout='logged'}
         else{ var layout='main'}
 
-        countVotes(idquest, function(err, data){
+        dbConn.countVotes(idquest, function(err, data){
             if (err){console.log("error on vote counting")}
             else{
-                getQuestion(idquest, function(err, dataQues){
+                dbConn.getQuestion(idquest, function(err, dataQues){
                     if(err){console.log('Cannot get the question');}
                     else{
                         var question=dataQues[0]['question'];
@@ -64,7 +52,7 @@ module.exports = {
         var people_answer=req.query.option_id;
         var question, options, numOptions;
 
-        registerAnswer(id_question,people_answer, function(err, data){
+        dbConn.registerAnswer(id_question,people_answer, function(err, data){
             console.log('registering your question');
             if (err){
                 console.log('error registering your vote' + err);
@@ -81,7 +69,7 @@ module.exports = {
     showQuestion:  function(req, res){
         var question_id = req.query.id;
         var question, options; 
-        getQuestion(question_id, function(err, data){
+        dbConn.getQuestion(question_id, function(err, data){
             if (err){ 
                 console.log ('error: '+err)
                 throw (err)
@@ -100,7 +88,7 @@ module.exports = {
     },
     
     allPolls: function(req, res){
-        getAllPolls(function(err, data){
+        dbConn.getAllPolls(function(err, data){
             if (err){ 
                 console.log ('error: '+err)
                 throw (err)
@@ -112,7 +100,7 @@ module.exports = {
 
     myPolls: function(req, res){
         var id = req.session.user;
-        returnPoll(id, function(err, data){
+        dbConn.returnPoll(id, function(err, data){
             if (err){ 
                 console.log ('error: '+err)
                 throw (err)
@@ -135,7 +123,7 @@ module.exports = {
         var question = req.body.question;
         var option= req.body.option;//mandar array
         var id = req.user;
-        registerPoll(question,option,id)
+        dbConn.registerPoll(question,option,id)
         flash(req, 'success', 'poll registered', 'your new poll is available');
         return res.redirect(303, '/myPolls');
     },
