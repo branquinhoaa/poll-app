@@ -1,14 +1,9 @@
+require('dotenv').config({silent: true});
 var express = require('express');
 var route = require('./route.js');
 var app = express();
 var helper = ('./helpers/helper.js')
 var port = process.env.PORT || 3000;
-//var Chart = require('chart.js')
-//var myChart = new Chart({...})
-
-//não tá funcionando pegar as variaveis locais do env
-//var credentials = process.env.COOKIE_SECRET;
-// set up handlebars view engine
 
 var handlebars = require('express3-handlebars').create({
   defaultLayout:'main',
@@ -30,24 +25,15 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 app.use(session({
-  secret: 'SECRET',
+  secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: 'mongodb://branqui:branqui@ds023485.mlab.com:23485/pollusers' 
-
+    url: process.env.MONGOLAB_URI
   })
 }));
 
-// TODO: FIX secret
-//app.use(require('cookie-parser')('SECRET'));
-//app.use(require('express-session')());
-
 app.use(function(req, res, next){
-  // if there's a flash message, transfer
-  // it to the context, then clear it
-
   res.locals.flash = req.session.flash;
   delete req.session.flash;
-
   next();
 });
 

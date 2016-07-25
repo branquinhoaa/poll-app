@@ -1,8 +1,7 @@
 var mongo = require('mongodb').MongoClient;
-var url = 'mongodb://branqui:branqui@ds023485.mlab.com:23485/pollusers';
-//PS.: COLOCAR DADOS NO ARQUIVO .ENV
+var url = process.env.MONGOLAB_URI;
+    
 var ObjectId = require('mongodb').ObjectID;
-
 
 function connect (callback){
     mongo.connect(url, function(err, db){
