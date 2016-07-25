@@ -38,6 +38,7 @@
     "express-logger": "0.0.3",
     "express-messages": "^1.0.1",
     "express-session": "^1.14.0",
+    "express3-handlebars": "^0.5.2",
     "loadtest": "^1.4.3",
     "mongodb": "^2.2.2",
     "morgan": "^1.7.0"
