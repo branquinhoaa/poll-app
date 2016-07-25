@@ -1,0 +1,24 @@
+<div class="container" id="register">
+ <!-- When the user submits the form, the /process URL will be invoked, and the field values
+will be transmitted to the server in the request body.
+f your form uses method="POST" (which is recommended), it is quite common to use
+the same path for displaying the form and processing the form: these can be distin‐
+guished because the former is a GET request, and the latter is a POST request. If you take
+this approach, you can omit the action attribute on the form.
+-->
+<form action="/process" method="POST">
+  <div class="form-group">
+    <label for="exampleInputName">Name</label>
+    <input type="name" name="name" class="form-control" id="exampleInputName" placeholder="Name">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>

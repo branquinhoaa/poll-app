@@ -1,0 +1,14 @@
+<div class="container" id="myPolls">
+    <h1>Welcome to your polls</h1>
+
+    <div id='poll' > 
+        {{#each questions}}
+        <a href="/question/?id={{question_id}}" class="card btn btn-default">
+            <div class="question" id='{{question_id}}'>
+                <h3>{{question}}</h3>
+            </div>
+            <a href="/deletepoll/?id={{question_id}}" class="deleteBtn btn btn-default">Delete this poll</a>              
+        </a>
+        {{/each}}
+    </div>   
+</div>
