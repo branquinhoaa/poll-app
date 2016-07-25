@@ -18,7 +18,7 @@ module.exports ={
     
     loginProc: function(req,res){
         var email = req.body.email, psw = req.body.psw;
-        //o bd vai retornar se existir
+        
         getUser(email, function(err, userData){
             if (err){
                 throw (err);

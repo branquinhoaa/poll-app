@@ -25,16 +25,15 @@ module.exports = {
     success:  function(req, res){        
         var idquest=req.query.id;
         var fullUrl =  req.protocol + '://' + req.get('host') + req.originalUrl;
-        console.log(fullUrl);
 
         if (req.session.user){ var layout='logged'}
         else{ var layout='main'}
 
         countVotes(idquest, function(err, data){
-            if (err){console.log("erro na contagem dos votos.")}
+            if (err){console.log("error on vote counting")}
             else{
                 getQuestion(idquest, function(err, dataQues){
-                    if(err){console.log('nao consegui pegar a question');}
+                    if(err){console.log('Cannot get the question');}
                     else{
                         var question=dataQues[0]['question'];
                         var options=dataQues[0]['options'];
@@ -42,7 +41,6 @@ module.exports = {
                         for (var i=0; i<options.length; i++){
                             votes[i]=0;
                         }
-                        console.log(votes);
                         for(item in data){                      
                             var index=data[item]._id;
                             votes[index]=data[item].count;
@@ -53,7 +51,7 @@ module.exports = {
                             count: data, question: question, 
                             labels: JSON.stringify(options), 
                             votes: JSON.stringify(votes), 
-                            myurl:'https://invulnerable-chocolatine-84081.herokuapp.com/' // MODIFICAR PARA PEGAR FULLURL QUANDO PASSAR PRO HEROKU //so para ver se funciona no caaso de alguem nao ter entendido
+                            myurl:fullUrl
                         })
                     }
                 })
@@ -67,7 +65,6 @@ module.exports = {
         var question, options, numOptions;
 
         registerAnswer(id_question,people_answer, function(err, data){
-
             console.log('registering your question');
             if (err){
                 console.log('error registering your vote' + err);
