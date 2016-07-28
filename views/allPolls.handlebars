@@ -1,7 +1,7 @@
 <div id="seeAllPolls">
     <h1>All polls available to vote!</h1>
     {{#each questions}}
-    <a href="/question/?id={{_id}}" class="btn btn-default">
+    <a href="/polls/question/?id={{_id}}" class="btn btn-default">
         <div class="question" id='{{_id}}'>
             <h3>{{question}}</h3>
         </div>            

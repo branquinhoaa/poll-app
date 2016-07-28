@@ -1,31 +1,50 @@
 /*Sessions are useful whenever you want to save a user preference that applies across
 pages. Most commonly, sessions are used to provide user authentication information:
 you log in, and a session is created. After that, you don’t have to log in again every time
-you re-load the page.*/
+you re-load the page.
 
-// handlers connections
-var main = require('./handlers/main.js'); 
-var user = require('./handlers/user.js');
-var login =require('./handlers/login.js'); 
-var polls = require('./handlers/polls.js');
+It has become a standard to use POST for creating something, and
+PUT for updating (or modifying) something. The English mean‐
+ing of these words doesn’t support this distinction in any way, so
+you may want to consider using the path to distinguish between
+these two operations to avoid confusion.
+
+*/
+
+var main = require('./controllers/MainController.js'); 
+var user = require('./controllers/UserController.js');
+var login =require('./controllers/LoginController.js'); 
+var polls = require('./controllers/PollController.js');
 var filter= require('./filters/filter.js');
 
+//ROUTES
+
 module.exports = function (app){
+ // FILTER
     app.use(filter.verifyCurrentUser);
+ 
+ //MAIN ROUTE
     app.get("/",main.home);
+ 
+ //USER ROUTES
     app.get("/register",user.register);
     app.post("/process", user.registerProcess);
-    app.get("/login", login.login);    
-    app.post("/logproc", login.loginProc);
     app.get("/dashboard", requireLogin, user.dashboard);
-    app.get("/myPolls", polls.myPolls);
-    app.post("/submitPoll", polls.submitPolls);
-    app.get("/allPolls", polls.allPolls);
-    app.get("/question", polls.showQuestion);
-    app.get("/vote",polls.registerVote);
-    app.get("/success",polls.success);
-    app.get("/deletepoll", polls.deletePoll);
+ 
+ 
+ //LOGIN ROUTES
+    app.get("/login", login.login);    
+    app.post("/login/proc", login.loginProc);
     app.get("/logout", login.logout); 
+ 
+ //POLL ROUTES
+    app.get("/polls/myPolls", polls.myPolls);
+    app.post("/polls/submit", polls.submitPolls);
+    app.get("/polls/allPolls", polls.allPolls);
+    app.get("/polls/question", polls.showQuestion);
+    app.get("/polls/vote",polls.registerVote);
+    app.get("/polls/success",polls.success);
+    app.get("/polls/deletepoll", polls.deletePoll);
 };
 
 
@@ -36,14 +55,3 @@ function requireLogin(req, res, next){
         next();
     }
 };
-
-function flash(req, typ, intr, messag){
-    return (
-        req.session.flash = {
-            type: typ,
-            intro: intr,
-            message: messag,
-        }
-    )
-}
-
