@@ -1,4 +1,3 @@
-//var dbConnection = require("../dbConn.js");
 var Model = require('../models/models.js')
 
 

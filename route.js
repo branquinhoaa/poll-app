@@ -28,7 +28,7 @@ module.exports = function (app){
  
  //USER ROUTES
     app.get("/register",user.register);
-    app.post("/process", user.registerProcess);
+    app.post("/process", user.createUser);
     app.get("/dashboard", requireLogin, user.dashboard);
  
  
