@@ -3,12 +3,20 @@ var dbConn = require("../dbConn.js");
 var Model = require('../models/models.js');
 
 
+
 module.exports = {
 
  deletePoll: function(req, res){
-  questionId= req.query.id;
-  dbConn.deletePoll(questionId);
-  res.redirect(302,'/polls/myPolls'); 
+  var id= req.query.id;
+  Model.PollsModel.remove({_id:id}, function(err, result){
+   if (err) {
+    flash(req, 'danger', 'poll was not deleted', 'try again');
+    console.log ("I could not delete the poll!")}
+   else{
+    flash(req, 'success', 'poll deleted', 'your poll was deleted');
+    res.redirect(302,'/polls/myPolls'); 
+   }
+  })  
  },   
 
  showQuestion:  function(req, res){

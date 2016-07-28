@@ -1,12 +1,10 @@
 var flash = require('../utilities/flash.js').flash;
-var dbConn = require("../dbConn.js");
 var Model = require('../models/models.js');
 
 
 module.exports = {
 
  registerAnswer:  function(req, res){
-
   var id_question=req.query.question_id,
       people_answer=req.body.option,
       answer = new Model.AnswerModel({
@@ -53,11 +51,10 @@ module.exports = {
        votes: JSON.stringify(votes), 
        myurl:fullUrl
       })
-
      }
-    })
-   }
-  })
+    });
+   };
+  });
  }
 }
 
