@@ -46,7 +46,7 @@ module.exports = function (app){
     app.get("/polls/deletepoll", polls.deletePoll);
  
  //ANSWER ROUTES
-    app.get("/answers/vote",answers.registerVote);
+    app.post("/answers/vote",answers.registerAnswer);
     app.get("/answers/showResults",answers.showResults);
  
 };

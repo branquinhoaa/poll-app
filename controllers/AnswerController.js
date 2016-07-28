@@ -2,34 +2,26 @@ var flash = require('../utilities/flash.js').flash;
 var dbConn = require("../dbConn.js");
 var Model = require('../models/models.js');
 
-/*
-var answers = new mongoose.Schema({
- id_question: String,
- answer: Number,
- counter: String
-}); 
-*/
-
 
 module.exports = {
 
- registerVote:  function(req, res){
+ registerAnswer:  function(req, res){
+  
   var id_question=req.query.question_id;
-  var people_answer=req.query.option_id;
-  var question, options, numOptions;
-
-  dbConn.registerAnswer(id_question,people_answer, function(err, data){
-   console.log('registering your question');
-   if (err){
-    console.log('error registering your vote' + err);
+  var people_answer=req.body.option;
+  var answer = new Model.AnswerModel({
+   id_question:id_question,
+   answer: people_answer
+  });
+  
+  answer.save(function(error){
+   if(error){
     flash(req, 'danger', 'registration error!', 'your vote was not registered! try again.');
-    throw(err)
-   }
-   else{
+   } else {
     flash(req, 'success', 'vote registered', 'Your vote was registered with success');
     res.redirect(302,'/answers/showResults/?id='+id_question); 
-   }        
-  }); 
+   }
+  })
  },
  
  

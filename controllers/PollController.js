@@ -27,7 +27,7 @@ module.exports = {
     });
     if (req.session.user){ var layout='logged'}
     else{ var layout='main'}
-    res.render('registerAnswer', {layout: layout , question: question, options: options});  
+    res.render('registerAnswer', {layout: layout , question: question, options: options, question_id: question_id});  
    }
   })
  },

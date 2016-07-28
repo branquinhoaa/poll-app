@@ -20,8 +20,7 @@ var polls = new mongoose.Schema({
 
 var answers = new mongoose.Schema({
  id_question: String,
- answer: Number,
- counter: String
+ answer: Number
 }); 
 
 var users = new mongoose.Schema({
