@@ -14,13 +14,13 @@ mongoose.connect(url)
 
 var polls = new mongoose.Schema({
  question: String,
- options: [String],
+ options: [{type: mongoose.Schema.Types.ObjectId, ref:'answers'}],
  'user-id':{}
 });
 
 var answers = new mongoose.Schema({
  id_question: String,
- answer: Number
+ answer: String
 }); 
 
 var users = new mongoose.Schema({
