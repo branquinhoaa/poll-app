@@ -15,6 +15,7 @@ var main = require('./controllers/MainController.js');
 var user = require('./controllers/UserController.js');
 var login =require('./controllers/LoginController.js'); 
 var polls = require('./controllers/PollController.js');
+var answers = require('./controllers/AnswerController.js');
 var filter= require('./filters/filter.js');
 
 //ROUTES
@@ -42,9 +43,12 @@ module.exports = function (app){
     app.post("/polls/submit", polls.submitPolls);
     app.get("/polls/allPolls", polls.allPolls);
     app.get("/polls/question", polls.showQuestion);
-    app.get("/polls/vote",polls.registerVote);
-    app.get("/polls/success",polls.success);
     app.get("/polls/deletepoll", polls.deletePoll);
+ 
+ //ANSWER ROUTES
+    app.get("/answers/vote",answers.registerVote);
+    app.get("/answers/showResults",answers.showResults);
+ 
 };
 
 

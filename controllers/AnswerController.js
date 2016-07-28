@@ -3,14 +3,11 @@ var dbConn = require("../dbConn.js");
 var Model = require('../models/models.js');
 
 /*
-
-
 var answers = new mongoose.Schema({
  id_question: String,
  answer: Number,
  counter: String
 }); 
-
 */
 
 
@@ -30,12 +27,13 @@ module.exports = {
    }
    else{
     flash(req, 'success', 'vote registered', 'Your vote was registered with success');
-    res.redirect(302,'/polls/success/?id='+id_question); 
+    res.redirect(302,'/answers/showResults/?id='+id_question); 
    }        
   }); 
  },
  
- success:  function(req, res){        
+ 
+ showResults:  function(req, res){        
   var idquest=req.query.id;
   var fullUrl =  req.protocol + '://' + req.get('host') + req.originalUrl;
 
