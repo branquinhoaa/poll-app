@@ -1,10 +1,8 @@
 var flash = require('../utilities/flash.js').flash;
 var Model = require('../models/models.js');
 
-
-
 module.exports = {
-//TA OK
+ 
  deletePoll: function(req, res){
   var id= req.query.id;
   Model.PollsModel.remove({_id:id}, function(err, result){
@@ -25,7 +23,6 @@ module.exports = {
   Model.PollsModel.find({_id:question_id}, function(err, data){
    if(err){throw (err)}
    else{
-    console.log(data)
     question = data[0]['question'];
     options = [];
     data[0]['options'].forEach(function(item,index){
@@ -54,17 +51,15 @@ module.exports = {
    if(err){console.log('error'+err)}
    else {
    var questionList =data
-   console.log(questionList)
     res.render('myPolls', {layout: 'logged', questions: questionList});   
    }
   })
  },
  
 
- //TA OK
  addPoll: function(req, res){ 
   var question = req.body.question;
-  var options= req.body.option;//mandar array
+  var options= req.body.option;
   var id = req.user;
  
   //create the object poll
