@@ -14,7 +14,7 @@ mongoose.connect(url)
 
 var polls = new mongoose.Schema({
  question: String,
- options: [{type: mongoose.Schema.Types.ObjectId, ref:'answers'}],
+ options: [String],
  'user-id':{}
 });
 

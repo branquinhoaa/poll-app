@@ -40,7 +40,7 @@ module.exports = function (app){
  
  //POLL ROUTES
     app.get("/polls/myPolls", polls.myPolls);
-    app.post("/polls/submit", polls.submitPolls);
+    app.post("/polls/addPoll", polls.addPoll);
     app.get("/polls/allPolls", polls.allPolls);
     app.get("/polls/question", polls.showQuestion);
     app.get("/polls/deletepoll", polls.deletePoll);

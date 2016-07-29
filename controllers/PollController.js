@@ -1,11 +1,10 @@
 var flash = require('../utilities/flash.js').flash;
-var dbConn = require("../dbConn.js");
 var Model = require('../models/models.js');
 
 
 
 module.exports = {
-
+//TA OK
  deletePoll: function(req, res){
   var id= req.query.id;
   Model.PollsModel.remove({_id:id}, function(err, result){
@@ -22,26 +21,24 @@ module.exports = {
  showQuestion:  function(req, res){
   var question_id = req.query.id;
   var question, options; 
-  dbConn.getQuestion(question_id, function(err, data){
-   if (err){ 
-    console.log ('error: '+err)
-    throw (err)
-   } else {
+  var layout = (req.session.user)? 'logged':'main';
+  Model.PollsModel.find({_id:question_id}, function(err, data){
+   if(err){throw (err)}
+   else{
+    console.log(data)
     question = data[0]['question'];
     options = [];
     data[0]['options'].forEach(function(item,index){
      var id=""+index;
      options.push({option: item, option_id: id,question_id: question_id});
     });
-    if (req.session.user){ var layout='logged'}
-    else{ var layout='main'}
-    res.render('registerAnswer', {layout: layout , question: question, options: options, question_id: question_id});  
    }
+   res.render('registerAnswer', {layout: layout , question: question, options: options, question_id: question_id});  
   })
  },
 
  allPolls: function(req, res){
-  dbConn.getAllPolls(function(err, data){
+  Model.PollsModel.find(function(err, data){
    if (err){ 
     console.log ('error: '+err)
     throw (err)
@@ -53,33 +50,36 @@ module.exports = {
 
  myPolls: function(req, res){
   var id = req.session.user;
-  dbConn.returnPoll(id, function(err, data){
-   if (err){ 
-    console.log ('error: '+err)
-    throw (err)
-   } else {
-    var questionList =[]
-    for (var i in data){
-     var question = {};
-     question['question'] = data[i]['question'];
-     question['options'] =  data[i]['options'];
-     question['question_id'] = data[i]['_id'];
-     questionList.push(question);
-    }
-
-    res.render('myPolls', {layout: 'logged', questions: questionList});  //--> put data dinamically        
-   }           
+  Model.PollsModel.find({'user-id':id}, function(err, data){
+   if(err){console.log('error'+err)}
+   else {
+   var questionList =data
+   console.log(questionList)
+    res.render('myPolls', {layout: 'logged', questions: questionList});   
+   }
   })
  },
+ 
 
- submitPolls: function(req, res){
+ //TA OK
+ addPoll: function(req, res){ 
   var question = req.body.question;
-  var option= req.body.option;//mandar array
+  var options= req.body.option;//mandar array
   var id = req.user;
-  dbConn.registerPoll(question,option,id)
-  flash(req, 'success', 'poll registered', 'your new poll is available');
-  return res.redirect(303, '/polls/myPolls');
- },
+ 
+  //create the object poll
+  var poll = new Model.PollsModel({
+   question: question,
+   options: options,
+   'user-id': id
+  }).save(function(error, data){
+   if (error){console.log('nao consegui salvar'+error)}
+   else{
+    flash(req, 'success', 'poll registered', 'your new poll is available');
+    return res.redirect(303, '/polls/myPolls'); 
+   }
+  })
+ }
 }
 
 
