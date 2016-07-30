@@ -13,22 +13,22 @@ module.exports ={
   Model.UserModel.find({email:email}, function(err, data){
    if(err){
     flash(req, 'danger', 'Validation error!', 'The email address you entered was not valid.');
-    return res.redirect(303, '/login');
+    return res.redirect('/login');
    }
    if(data[0]['password'] === psw){
     req.session.user = data[0]['_id'];
     flash(req, 'success', 'Logged with success!', 'You are now in your dashboard.');
-    return res.redirect(303, '/polls/myPolls');
+    return res.redirect('/polls/myPolls');
    } else {
     flash(req, 'danger', 'Validation error!', 'The password you entered was not valid.');
-    return res.redirect(303, '/login');
+    return res.redirect('/login');
    }
   })
  },
 
  logout: function(req, res){
   req.session.destroy(function(err) {
-   res.redirect(303, '/');
+   res.redirect('/');
   });
  },
 }

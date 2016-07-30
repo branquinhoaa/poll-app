@@ -1,15 +1,6 @@
 var mongoose = require('mongoose');
 var url = process.env.MONGOLAB_URI;
 var db = mongoose.connection;
-
-db.on('error', function(){
- console.log('There was an error connecting to the database');
-});
-
-db.once('open', function() {
- console.log('Successfully connected to database');
-});
-
 mongoose.connect(url)
 
 var polls = new mongoose.Schema({
@@ -22,6 +13,18 @@ var answers = new mongoose.Schema({
  id_question: String,
  answer: String
 }); 
+
+answers.statics.countByQuestionId = function (idQuest,callback){
+ return this.aggregate([
+  {$match: {'id_question': idQuest}},     
+  {$group: { _id : '$answer', count : {$sum : 1}}}], 
+                       function(err, data){
+  if (err){ callback(err)}
+  else{
+   callback(null,data);
+  }
+ });
+}
 
 var users = new mongoose.Schema({
  name: String,

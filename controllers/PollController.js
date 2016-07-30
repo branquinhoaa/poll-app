@@ -2,13 +2,13 @@ var flash = require('../utilities/flash.js').flash;
 var Model = require('../models/models.js');
 
 module.exports = {
- 
  deletePoll: function(req, res){
   var id= req.query.id;
   Model.PollsModel.remove({_id:id}, function(err, result){
    if (err) {
     flash(req, 'danger', 'poll was not deleted', 'try again');
-    console.log ("I could not delete the poll!")}
+    res.redirect('/');
+   }
    else{
     flash(req, 'success', 'poll deleted', 'your poll was deleted');
     res.redirect(302,'/polls/myPolls'); 
@@ -37,7 +37,7 @@ module.exports = {
  allPolls: function(req, res){
   Model.PollsModel.find(function(err, data){
    if (err){ 
-    console.log ('error: '+err)
+    res.redirect('/');
     throw (err)
    } else {
     res.render('allPolls', {questions: data});  
@@ -48,34 +48,33 @@ module.exports = {
  myPolls: function(req, res){
   var id = req.session.user;
   Model.PollsModel.find({'user-id':id}, function(err, data){
-   if(err){console.log('error'+err)}
+   if(err){
+    res.redirect('/');
+   }
    else {
-   var questionList =data
+    var questionList =data
     res.render('myPolls', {layout: 'logged', questions: questionList});   
    }
   })
  },
- 
 
  addPoll: function(req, res){ 
   var question = req.body.question;
   var options= req.body.option;
   var id = req.user;
- 
+
   //create the object poll
   var poll = new Model.PollsModel({
    question: question,
    options: options,
    'user-id': id
   }).save(function(error, data){
-   if (error){console.log('nao consegui salvar'+error)}
-   else{
+   if (error){
+    res.redirect('/'); 
+   }else{
     flash(req, 'success', 'poll registered', 'your new poll is available');
-    return res.redirect(303, '/polls/myPolls'); 
+    return res.redirect( '/polls/myPolls'); 
    }
   })
- }
+  }
 }
-
-
-

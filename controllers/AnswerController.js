@@ -1,24 +1,21 @@
 var flash = require('../utilities/flash.js').flash;
 var Model = require('../models/models.js');
 
-
 module.exports = {
-
- registerAnswer:  function(req, res){
+ registerAnswer: function(req, res) {
   var id_question=req.query.question_id,
       people_answer=req.body.option,
       answer = new Model.AnswerModel({
        id_question:id_question,
        answer: people_answer
       });
-  console.log("people anser "+people_answer)
-
   answer.save(function(error){
    if(error){
     flash(req, 'danger', 'registration error!', 'your vote was not registered! try again.');
+    res.redirect('/');
    } else {
     flash(req, 'success', 'vote registered', 'Your vote was registered with success');
-    res.redirect(302,'/answers/showResults/?id='+id_question); 
+    res.redirect('/answers/showResults/?id='+id_question); 
    }
   })
  }, 
@@ -27,11 +24,17 @@ module.exports = {
   var idQuest=req.query.id,
       fullUrl =  req.protocol + '://' + req.get('host') + req.originalUrl,
       layout = (req.session.user)? 'logged':'main';     
-  count(idQuest, function(err, countData){
-   if (err){console.log(err)}
+  Model.AnswerModel.countByQuestionId(idQuest, function(err, countData){
+   if (err){
+    flash(req, 'danger', 'It was not possible show the results', ' try again.');
+    res.redirect('/');
+   }
    else{
     Model.PollsModel.find({_id:idQuest}, function(err, questionData){
-     if (err){console.log(err)}
+     if (err){
+      flash(req, 'danger', 'Not possible find this question results', 'try again.');
+      res.redirect('/');
+     }
      else {
       var question = questionData[0]['question'],
           options=questionData[0]['options'],
@@ -56,16 +59,4 @@ module.exports = {
    };
   });
  }
-}
-
-function count (idQuest,callback){
- Model.AnswerModel.aggregate([
-  {$match: {'id_question': idQuest}},     
-  {$group: { _id : '$answer', count : {$sum : 1}}}], 
-                             function(err, data){
-  if (err){ callback(err)}
-  else{
-   callback(null,data);
-  }
- });
 }

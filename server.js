@@ -41,5 +41,4 @@ app.use(function(req, res, next){
 route(app);
 
 app.listen(port, function() {
-  console.log('listening on port '+port);
 })
