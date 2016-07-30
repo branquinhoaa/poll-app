@@ -1,5 +1,4 @@
-var Model = require('../models/models.js')
-
+var Model = require('../models/models.js');
 
 module.exports = {
  verifyCurrentUser: function(req, res, next){
