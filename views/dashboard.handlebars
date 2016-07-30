@@ -1,0 +1,17 @@
+<h1 id="greeting">Hello, {{{user_name}}}!</h1>
+
+<div class="container" id="newPollForm">
+    <h2>Make your poll here</h2>
+  
+<form action="/polls/addPoll" method="POST">
+    <label for="question">Your Question:</label>
+    <input type="text" class="form-control" name="question" id="question" aria-describedby="basic-addon3" placeholder="What is your favorite pokemon?" >
+    <label for="options">Your options:</label>
+    <div id="pollOptions">
+    <input type="text" class="form-control options" name="option" placeholder="pikachu">
+    <input type="text" class="form-control options" name="option" placeholder="charmander">
+    </div>
+    <button id="submit" type="submit" class="btn btn-default">Submit</button>
+</form>
+    <button onclick="addMoreOptions()" class="btn btn-default" id="moreOptions">more options</button>
+</div>

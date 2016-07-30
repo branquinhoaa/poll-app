@@ -1,0 +1,13 @@
+<div class="container" >
+ <form action="/answers/vote/?question_id={{question_id}}" method="POST">
+  <h1 class='center'>{{question}}</h1>
+  <div id="eachQuestion"> 
+   {{#each options}}
+   <input type="radio" name="option" value='{{option_id}}'><h5>{{option}}</h5>
+   {{/each}}            
+   <br>
+   <button class="btn btn-default">Submit</button>
+  </div>
+ </form>
+</div>
+
